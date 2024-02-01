@@ -65,26 +65,27 @@ public class EmployeeController {
 
 //getEmployee based on Param
 
-    @GetMapping(value = "/getEmp")
+   /* @GetMapping(value = "/getEmp")
     public ResponseEntity<List<Employee>> getEmployeeDetails(@RequestParam(name = "emp_id",required = false, defaultValue = "EMP001") String empId,
                                                              @RequestParam(name = "emp_name",required = false) String empName){
         List<Employee> employeeList = employeeService.getEmployee(empId,empName);
         return new ResponseEntity<>(employeeList,HttpStatus.OK);
+    }*/
+
+    //getEmployee based on header
+
+
+    @GetMapping(value = "/getEmpDetailsByHeader")
+    public ResponseEntity<List<Employee>> getEmployeeDetails(@RequestHeader(name = "user_Agent") boolean userAgent){
+        List<Employee> employeeList = null;
+        if(userAgent){
+
+            employeeList = employeeService.getEmployee("Emp002","Amit");
+        }
+        if(employeeList.isEmpty()){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(employeeList,HttpStatus.OK);
     }
-
-    //gt=etEmployee based on header
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

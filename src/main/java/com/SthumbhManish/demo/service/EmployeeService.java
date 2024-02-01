@@ -1,14 +1,24 @@
 package com.SthumbhManish.demo.service;
 
+import com.SthumbhManish.demo.DTO.EmployeeRequest;
+import com.SthumbhManish.demo.Entity.EmployeeEntity;
 import com.SthumbhManish.demo.Model.Employee;
+import com.SthumbhManish.demo.Repositry.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+/*@Component*/
+@Service
 public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public List<Employee> getEmployee(String empId,String name) {
         List<Employee> employeeList = getEmp().stream()
@@ -34,4 +44,26 @@ public class EmployeeService {
         return Arrays.asList(employee1,employee2,employee3);
 
     }
+        public EmployeeRequest createEmployee(EmployeeRequest employeeRequest) {
+
+        if(employeeRequest.getName().length()>255){
+            return null;
+        }
+
+            if(employeeRequest.getDob().length()>10){
+                return null;
+            }
+            String uuid = String.valueOf(UUID.randomUUID());
+            EmployeeEntity employeeEntity = new EmployeeEntity(uuid,
+                    employeeRequest.getName(),
+                    employeeRequest.getDob(), employeeRequest.getAddress(), employeeRequest.getAddress(), "oajsoso", "988765343");
+
+            employeeRepository.save(employeeEntity);
+            employeeRequest.setEmpId(uuid);
+            return employeeRequest;
+
+        }
 }
+
+
+
