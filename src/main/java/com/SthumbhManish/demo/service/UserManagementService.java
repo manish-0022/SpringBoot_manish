@@ -7,6 +7,10 @@ import com.SthumbhManish.demo.Repositry.UserManagementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserManagementService {
     @Autowired
@@ -32,5 +36,19 @@ public class UserManagementService {
 
         return userResponseDTo;
 
+    }
+
+
+    public List<UserEntity> getUsers() {
+        return userManagementRepository.findAll();
+    }
+
+
+    public UserEntity getUsersbyID(Long userID) {
+        Optional<UserEntity>  userEntity = userManagementRepository.findById(userID);
+        if(!userEntity.isEmpty()) {
+            return userEntity.get();
+        }
+        return null;
     }
 }
